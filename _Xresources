@@ -1,0 +1,8 @@
+Xft.antialias:     true 
+Xft.hinting:       true 
+Xft.lcdfilter:     lcddefault
+Xft.hintstyle:     hintslight
+Xft.rgba:          vrgb
+Xft.embolden:      true
+Emacs.FontBackend: xft
+Emacs.font: monofur-12

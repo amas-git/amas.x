@@ -1,0 +1,75 @@
+#!/bin/zsh
+#
+# ~/.xinitrc
+#
+
+#----------------------------------------------------------[ GTK ]
+export GDK_USE_XFT=1
+export GTK_PATH=$GTK_PATH:/usr/lib/gtk-2.0
+
+# for emacs lost menu issue
+export GDK_NATIVE_WINDOWS=1
+
+#----------------------------------------------------------[ IME.Fcitx ]
+export LC_CTYPE="zh_CN.utf8" 
+export GTK_IM_MODULE=xim
+export QT_IM_MODULE=xim
+export XMODIFIERS=@im=fcitx
+fcitx &
+
+
+# ---------------------------------------------------------[ IME.Scim ]
+# export XIM="SCIM"
+# export GTK_IM_MODULE=scim
+# export QT_IM_MODULE=sxim
+# export XMODIFIERS=@im=SCIM
+# scim -d
+
+
+
+# ---------------------------------------------------------[ NetworkManager ]
+# wicd-client &
+xbindkeys
+
+# ---------------------------------------------------------[ WM ]
+xset +fp /usr/share/fonts/local
+xset +fp /home/amas/.fonts
+xset fp rehash
+xrdb -merge ~/.Xresources
+
+# C-A-Backspace to restart Xorg
+setxkbmap -option terminate:ctrl_alt_bksp
+
+# Executed by startx (run your window manager from here)
+# exec xterm
+# exec gnome-session
+# exec startkde
+# exec startxfce4
+# ...or the Window Manager of your choice
+xmodmap ~/.Xmodmap
+#exec ~/wm/stumpwm/stumpwm
+#exec musca
+#exec ion3
+# ---------------------------------------------------------[ Panel ]
+# exec xfce4-panel
+
+
+DEFAULT_SESSION=xmonad
+
+case $1 in
+xfce4)
+	exec startxfce4
+	;;
+stumpwm)
+	exec ~/wm/stumpwm/stumpwm
+	;;
+ion3)
+	exec ion3
+	;;
+musca)
+	exec musca
+	;;
+*)
+	exec $DEFAULT_SESSION
+	;;
+esac
