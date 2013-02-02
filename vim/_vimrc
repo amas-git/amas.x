@@ -1,0 +1,106 @@
+set number
+colorscheme desert
+set cursorline
+set nobackup
+set titlestring=vim
+
+set titlelen=3
+
+
+syntax on
+filetype plugin on
+filetype indent on
+set smartindent
+set hlsearch
+
+"set nowrap
+set guifont=Droid\ Sans\ Mono\ 12
+set nobackup
+set expandtab
+"=======================================
+"   Replace Tab With Space
+
+"=======================================
+":% retab
+"---------------------------------------
+
+
+"=======================================
+
+"   Replace Space With Tab
+"=======================================
+":% retab!
+"---------------------------------------
+set incsearch
+set tabstop=4
+
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+set cindent
+set showmatch
+set textwidth=78
+
+set listchars=eol:$,tab:>-,trail:-
+
+""" define what's a word
+
+set iskeyword=@,48-57,_,192-255,-
+
+set whichwrap=b,s,<,>,[,]
+
+set formatoptions=croql
+"set backspace=indent,eol,start 
+"------- KEY MAP ----------------
+
+set incsearch
+nmap <F2>    : nohlsearch<CR>
+
+"------- TAG FILES --------------
+set tags=.,./tags,~/tags/Mail
+
+
+"------- ETC --------------------
+"set list | set nolist
+"set cmdheight=3
+"set background=dark | light
+
+
+
+"======================================
+"  Hightlight Command
+"======================================
+"term      | black-white term attribute
+
+"cterm     | color term acttribute
+"ctermfg   | color term fg color
+"ctermbg   | color term bg color
+"gui GU    | gui attribute
+
+"guifg GUI | gui fg color
+"guibg GUI | gui bg color
+"--------------------------------------
+
+" #try this:
+
+" highlight Comment ctermfg=green guifg=green
+
+" #Close syntax if you feel too slow
+" syntax clear
+
+
+
+"=======================================
+
+" Convert To Hard Html
+"=======================================
+" source $VIMRUNTIME/syntax/2html.vim
+"---------------------------------------
+
+
+
+
+"=======================================
+" Google Android Development
+"=======================================
+"set updatetime=200
