@@ -6,7 +6,9 @@ import XMonad.Actions.WindowGo
 import XMonad.Actions.WindowMenu
 import XMonad.Actions.NoBorders
 import XMonad.Actions.GridSelect
+import XMonad.Actions.CycleWS
 
+ 
 import XMonad.Layout.Circle
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -21,6 +23,8 @@ import XMonad.Layout.DecorationMadness
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
+import qualified XMonad.Layout.Magnifier as Mag
+
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -164,11 +168,13 @@ myTabConfig = defaultTheme {
   , activeTextColor  = "orange"
   }
 
+
 myLayout = id
            . smartBorders
            . avoidStruts
            . mkToggle (NOBORDERS ?? FULL ?? EOT)
            . mkToggle (single MIRROR)
+           . Mag.magnifier
            $ centerMaster Grid
            ||| OneBig (3/4) (3/4)
            ||| tiled
@@ -179,7 +185,8 @@ myLayout = id
                nmaster = 1
                ratio   = 1/2
                delta   = 3/100
-         
+
+
 
 
 ---------------------------------------------------------------------[ WindowsRule ]  
@@ -353,8 +360,11 @@ main = do
     , ((mod1Mask,  xK_0), goToSelected defaultGSConfig)
     , ((mod1Mask .|. shiftMask, xK_g     ), windowPromptGoto  defaultXPConfig)
     , ((mod1Mask .|. shiftMask, xK_b     ), windowPromptBring defaultXPConfig)
+      -- 是否开启窗口自动放大模式
+    , ((0, xK_F12), sendMessage Mag.Toggle)
       --, ((mod4Mask,  xK_x), shellPrompt defaultXPConfig)
     , ((0, xK_F11), sendMessage $ Toggle FULL )
+    , ((mod4Mask,               xK_Down),  nextWS)
       --, ((modm,               xK_Return), windows W.swapMaster)
       -- launch app with promote in put args  
       -- , ((mod1Mask, xK_x), AL.launchApp defaultXPConfig "xpdf" )

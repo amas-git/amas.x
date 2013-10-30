@@ -104,3 +104,26 @@ set tags=.,./tags,~/tags/Mail
 " Google Android Development
 "=======================================
 "set updatetime=200
+
+
+if has("gui_running")
+    " set guioptions-=m  " remove menu bar
+    set guioptions-=T  " remove toolbar
+    set guioptions-=r  " remove right-hand scroll bar
+    set guioptions-=l  " remove left-hand scroll bar
+    set guioptions-=L  " remove left-hand scroll bar even if there is a vertical split
+    set guioptions-=b  " remove bottom scroll bar
+endif
+
+
+"=======================================
+" CTags
+"=======================================
+" create ctags at pwd
+map <F5> :!ctags -R –c++-kinds=+p –fields=+iaS –extra=+q .<CR>
+if has("win32")
+    set tags+=E:\workspace\linux\tags  " tags for /usr/include/
+else
+    set tags+=~/.vim/tags/include/tags " tags for /usr/include/
+endif
+set tags+=tags                         " tags for current project
