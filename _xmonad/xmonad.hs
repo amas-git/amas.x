@@ -350,9 +350,9 @@ main = do
     , ((mod4Mask,  xK_n),  raiseMaybe  (spawn "evince") (className =? "Evince"))
     , ((mod4Mask,  xK_g),  raiseMaybe  (spawn "gvim") (className =? "Gvim"))
     , ((mod4Mask,  xK_e),  raiseMaybe  (spawn "emacs --name main.edit") (className =? "Emacs"))
-    , ((mod4Mask,  xK_f),  raiseMaybe  (spawn "urxvt -name main.term -e screen") (resource =? "main.term"))
-    , ((mod4Mask,  xK_o),  raiseMaybe  (spawn "eclipse") (resource =? "Eclipse"))
-    , ((mod4Mask,  xK_g),  raiseMaybe  (spawn "gvim") (className =? "Gvim"))
+    , ((mod4Mask,  xK_f),  raiseMaster  (spawn "urxvt -name main.term -e screen") (resource =? "main.term"))
+    , ((mod4Mask,  xK_o),  raiseMaster  (spawn "eclipse") (resource =? "Eclipse"))
+    , ((mod4Mask,  xK_g),  raiseNextMaybe (spawn "gvim") (className =? "Gvim"))
     , ((mod4Mask,  xK_i),  raiseMaybe  (spawn "inkscape") (className =? "Inkscape"))
     , ((mod4Mask,  xK_0),  windowMenu)
       --  

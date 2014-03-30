@@ -1,0 +1,19 @@
+[user]
+    name = amas
+    email = zhoujb.cn@gmail.com
+
+[alias]  
+    co = checkout  
+    ci = commit -a  
+    st = status  
+    br = branch  
+    ri = remote -v
+
+[color]  
+    diff = auto  
+    status = auto  
+    branch = auto  
+    ui = auto  
+
+[core]  
+    editor = vim
