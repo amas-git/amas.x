@@ -35,7 +35,7 @@ URxvt.scrollColor:OrangeRed
 
 
 URxvt.saveLines:10000
-URxvt.font:xft:monofur:size=13,antialias=true,xft:微软雅黑:size=15:antialias=true
+URxvt.font:xft:monofur:size=11,antialias=true,xft:微软雅黑:size=11:antialias=true
 URxvt.pastableTabs:False
 URxvt.title:amas
 !URxvt.iconName:/usr/share/icons/default.kde/32x32/apps/emacs.png

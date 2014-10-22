@@ -127,3 +127,8 @@ else
     set tags+=~/.vim/tags/include/tags " tags for /usr/include/
 endif
 set tags+=tags                         " tags for current project
+
+
+
+set backupdir=/tmp/
+set directory=/tmp/
