@@ -109,7 +109,7 @@ URxvt.internalBorder:0
 !URxvt.borderLess:True
 
 URxvt.colorUL:VIOLET
-URxvt.underlineColor:ORANGE
+URxvt.underlineColor:VIOLET
 URxvt.colorBD:GREEN
 URxvt.colorIT:VIOLET
 
