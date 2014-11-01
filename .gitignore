@@ -1,4 +1,14 @@
+.class
+.project
+bin/
+gen/
+proguard/
+*.DS_Store
+.settings/
+perform/
+_xmonad/xmonad-x86_64-linux
 _xmonad/xmonad-i386-linux
-_xmonad/xmonad.errors
-_xmonad/xmonad.hi
-_xmonad/xmonad.o
+.gitignore
+*.o
+*.errors
+*.hi
