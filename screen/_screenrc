@@ -1,4 +1,5 @@
 #--------------------------------------------------------------------[ Basic ]
+term "xterm-256color"
 startup_message off
 deflogin on
 autodetach off

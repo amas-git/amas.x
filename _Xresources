@@ -6,3 +6,150 @@ Xft.rgba:          vrgb
 Xft.embolden:      true
 Emacs.FontBackend: xft
 Emacs.font: monofur-12
+
+#define YELLOW        #b58900
+#define ORANGE        #cb4b16
+#define RED           #dc322f
+#define MAGENTA       #d33682
+#define VIOLET        #6c71c4
+#define BLUE          #268bd2
+#define CYAN          #2aa198
+#define GREEN         #859900
+
+
+! Dark
+
+#define BASE03        #002b36
+#define BASE02        #073642
+#define BASE01        #586e75
+#define BASE00        #657b83
+#define BASE0         #839496
+#define BASE1         #93a1a1
+#define BASE2         #eee8d5
+#define BASE3         #fdf6e3
+
+
+! Light
+
+! #define S_base03        #fdf6e3
+! #define S_base02        #eee8d5
+! #define S_base01        #93a1a1
+! #define S_base00        #839496
+! #define S_base0         #657b83
+! #define S_base1         #586e75
+! #define S_base2         #073642
+! #define S_base3         #002b36
+
+
+!-------------------------------------------------
+!       color0       (black)            = Black
+!       color1       (red)              = Red3
+!       color2       (green)            = Green3
+!       color3       (yellow)           = Yellow3
+!       color4       (blue)             = Blue3
+!       color5       (magenta)          = Magenta3
+!       color6       (cyan)             = Cyan3
+!       color7       (white)            = AntiqueWhite
+!       color8       (bright black)     = Grey25
+!       color9       (bright red)       = Red
+!       color10      (bright green)     = Green
+!       color11      (bright yellow)    = Yellow
+!       color12      (bright blue)      = Blue
+!       color13      (bright magenta)   = Magenta
+!       color14      (bright cyan)      = Cyan
+!       color15      (bright white)     = White
+!       foreground                      = Black
+!       background                      = White
+
+*color1:RED
+*color9:RED
+
+*color2:GREEN
+*color10:GREEN
+
+*color3:YELLOW
+*color11:YELLOW
+
+*color4:BLUE
+*color12:BLUE
+
+*color5:MAGENTA
+*color13:MAGENTA
+
+*color6:CYAN
+*color14:CYAN
+
+*color7:BASE2
+*color15:BASE2
+
+
+URxvt.background:BASE03
+URxvt.foreground:BASE1
+URxvt.geometry:100x35
+URxvt.scrollBar:True
+URxvt.scrollBar_right:True
+URxvt.scrollBar_floating:True
+URxvt.scrollstyle:plain
+URxvt.troughColor:GREEN
+URxvt.scrollColor:BASE01
+
+
+URxvt.saveLines:10000
+URxvt.font:xft:monofur:size=12,antialias=true,xft:微软雅黑:size=12:antialias=true
+URxvt.pastableTabs:False
+URxvt.title:amas
+!URxvt.iconName:/usr/share/icons/default.kde/32x32/apps/emacs.png
+!URxvt.cursorUnderline:True
+Rxvt.mouseWheelScrollPage:True
+URxvt.cursorBlink:True
+URxvt.pointerBlank:True
+URxvt.pointerColor:11
+URxvt.externalBorder:0
+URxvt.internalBorder:0
+!URxvt.borderLess:True
+
+URxvt.colorUL:VIOLET
+URxvt.underlineColor:ORANGE
+URxvt.colorBD:GREEN
+URxvt.colorIT:VIOLET
+
+
+
+URxvt.borderColor:BASE03
+Urxvt.scrollBar_align:top
+!URxvt.path: #Specify the colon-delimited search path for finding background image files
+URxvt.perl-ext-common:default,selection,selection-autotransform,matcher 
+! other perl modules
+! digital-clock
+URxvt.urlLauncher:chromium
+URxvt.selection.pattern-0:\\|([^|]+)\\|
+URxvt.selection.pattern-1: ( at .*? line \\d+[,.])
+URxvt.selection-autotransform.1: s/^ at (.*?) line (\\d+)[,.]$/:e \\Q$1\E\\x0d:$2\\x0d/
+URxvt.selection-autotransform.0: s/^([^:[:space:]]+):(\\d+):.*$/vim +$2 \\Q$1\\E\\x0d/
+
+URxvt.matcher.button:2
+URxvt.matcher.pattern.1: \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+		
+
+URxvt.secondaryScreen:True
+
+
+URxvt.fading: 20
+!!urxvt.shading: 20
+!!URxvt.fadeColor:#7B68EE
+URxvt.transparent:False
+URxvt.lineSpace:0
+
+!!! Key Bindings:
+!!!
+
+!URxvt.searchable-scrollback: CM-s
+URxvt.keysym.C-M-q: command:\033[3;5;5t
+URxvt.keysym.C-M-y: command:\033[3;5;606t
+URxvt.keysym.C-M-e: command:\033[3;1605;5t
+URxvt.keysym.C-M-c: command:\033[3;1605;606t
+
+! Speed up launch time
+URxvt.preeditType:Root
+
+

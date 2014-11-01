@@ -1,5 +1,5 @@
 set number
-colorscheme desert
+colorscheme solarized
 set cursorline
 set nobackup
 set titlestring=vim

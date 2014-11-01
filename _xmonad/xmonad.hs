@@ -346,7 +346,7 @@ main = do
       --, ((mod1Mask , xK_z),  promote)
     , ((mod1Mask , xK_y), commands >>= runCommand)
       --, ((mod1Mask,  xK_z),   withFocused toggleBorder)
-    , ((mod4Mask,  xK_b),  raiseMaybe  (spawn "chromium") (className =? "Chromium"))
+    , ((mod4Mask,  xK_b),  raiseMaybe  (spawn "opera") (className =? "Opera"))
     , ((mod4Mask,  xK_n),  raiseMaybe  (spawn "evince") (className =? "Evince"))
     , ((mod4Mask,  xK_g),  raiseMaybe  (spawn "gvim") (className =? "Gvim"))
     , ((mod4Mask,  xK_e),  raiseMaybe  (spawn "emacs --name main.edit") (className =? "Emacs"))
