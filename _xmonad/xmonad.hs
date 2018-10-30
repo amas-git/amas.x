@@ -24,7 +24,8 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import qualified XMonad.Layout.Magnifier as Mag
-
+import XMonad.Actions.CycleRecentWS
+import XMonad.Actions.CycleWindows
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -42,10 +43,11 @@ import XMonad.Util.Run(spawnPipe,runInTerm,safeRunInTerm,safeSpawn)
 import XMonad.Util.EZConfig(additionalKeys,mkKeymap)
 import XMonad.Util.Scratchpad(scratchpadSpawnActionTerminal,scratchpadSpawnAction, scratchpadManageHook, scratchpadFilterOutWorkspace)
 import System.IO
-
+import Control.Concurrent          (forkIO, threadDelay)
+import Control.Monad               (void)
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
-import qualified System.IO.UTF8
+-- import qualified System.IO.UTF8
 
 ---------------------------------------------------------------------[ Colors ]
 colorOrange          = "#ff7701"
@@ -70,6 +72,9 @@ myTerm = "urxvt"
 myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Prefix key
+-- LEFT  ALT : mod1Mask
+-- RIGHT ALT : mod3Mask
+-- WIN       : mod4Mask
 myModMask = mod4Mask
 
 -- Whether focus follows the mouse pointer.
@@ -297,9 +302,26 @@ myPP h = defaultPP
          , ppWsSep           = "  "
          , ppTitle           = shorten 80
          , ppOrder           = (take 3) . workspaceTag
-         , ppOutput          = System.IO.UTF8.hPutStrLn h
+         --, ppOutput          = System.IO.UTF8.hPutStrLn h
          }
     where workspaceTag (x:xs) = ("[ " ++ x ++ " ]") : xs
+---------------------------------------------------------------------[ Grid Select ]
+myColorizer :: Window -> Bool -> X (String, String)
+myColorizer = colorRangeFromClassName
+	(0x00,0x00,0xFF) --lowest inactive bg
+	(0x1C,0x1C,0x1C) --highest inactive bg
+	(0x44,0xAA,0xCC) --active bg
+	(0xBB,0xBB,0xBB) --inactive fg
+	(0x00,0xFF,0x00) --active fg
+ 
+-- GridSelect theme
+myGSConfig :: t -> GSConfig Window
+myGSConfig colorizer = (buildDefaultGSConfig myColorizer)
+	{ gs_cellheight  = 124
+	, gs_cellwidth   = 200
+	, gs_cellpadding = 10
+	--, gs_font        = dzenFont
+	}
 ---------------------------------------------------------------------[ Hooks ]
 --myManageHook = composeAll
 --    [ className =? "MPlayer"        --> doFloat
@@ -316,7 +338,10 @@ commands = defaultCommands
 
 
 
-
+fixPanel :: IO ()
+fixPanel = void $ forkIO $ do
+  threadDelay 5000000 -- delay for five seconds
+  spawn "xfce4-panel -r"
 ---------------------------------------------------------------------[ Main ]
 main = do
   -- xmodebar
@@ -324,7 +349,7 @@ main = do
   -- xmonad
   -- conf <- dzen defaultConfig
   -- xxx <- spawnPipe dzenXmonad
-  xfac4Panel <- spawnPipe cmdXfce4Panel
+  xmproc <- spawnPipe "xmobar"
   xmonad $ defaultConfig {
     borderWidth        = myBorderWidth  
     , normalBorderColor  = "black"
@@ -341,31 +366,33 @@ main = do
     `additionalKeys`
     [
       ((mod1Mask, xK_m),     spawn "xmessage 'woohoo!'"  ) 
-    , ((mod1Mask, xK_o),  scratchpadSpawnAction defaultConfig  {terminal = myTerm})  
+      --, ((mod1Mask, xK_o),  scratchpadSpawnAction defaultConfig  {terminal = myTerm})  
       --, ((mod1Mask , xK_x),  scratchpadSpawnActionTerminal myTerm) 
       --, ((mod1Mask , xK_z),  promote)
     , ((mod1Mask , xK_y), commands >>= runCommand)
       --, ((mod1Mask,  xK_z),   withFocused toggleBorder)
     , ((mod4Mask,  xK_b),  raiseMaybe  (spawn "chromium") (className =? "Chromium"))
+    , ((mod4Mask,  xK_BackSpace),  raiseMaybe  (spawn "typora") (className =? "Typora"))
     , ((mod4Mask,  xK_n),  raiseMaybe  (spawn "evince") (className =? "Evince"))
     --, ((mod4Mask,  button10),  raiseMaybe  (spawn "evince") (className =? "Evince"))
     , ((mod4Mask,  xK_g),  raiseMaybe  (spawn "gvim") (className =? "Gvim"))
     , ((mod4Mask,  xK_e),  raiseMaybe  (spawn "emacs --name main.edit") (className =? "Emacs"))
-    , ((mod4Mask,  xK_f),  raiseMaster  (spawn "urxvt -name main.term -e screen") (resource =? "main.term"))
-    , ((mod4Mask,  xK_o),  raiseMaster  (spawn "eclipse") (resource =? "Eclipse"))
+    , ((mod4Mask,  xK_f),  raiseMaster (spawn "urxvt -name main.term -e screen") (resource =? "main.term"))
+    , ((mod4Mask,  xK_o),  raiseMaybe  (spawn "ws") (className =? "jetbrains-webstorm"))
     , ((mod4Mask,  xK_g),  raiseNextMaybe (spawn "gvim") (className =? "Gvim"))
-    , ((mod4Mask,  xK_i),  raiseMaybe  (spawn "inkscape") (className =? "Inkscape"))
     , ((mod4Mask,  xK_0),  windowMenu)
       --  
       -- , ((mod1Mask,  xK_0), spawnSelected defaultGSConfig ["urxvt"])
-    , ((mod1Mask,  xK_0), goToSelected defaultGSConfig)
+    , ((mod1Mask,  xK_0), goToSelected $ myGSConfig myColorizer)
     , ((mod1Mask .|. shiftMask, xK_g     ), windowPromptGoto  defaultXPConfig)
     , ((mod1Mask .|. shiftMask, xK_b     ), windowPromptBring defaultXPConfig)
       -- 是否开启窗口自动放大模式
     , ((0, xK_F12), sendMessage Mag.Toggle)
       --, ((mod4Mask,  xK_x), shellPrompt defaultXPConfig)
     , ((0, xK_F11), sendMessage $ Toggle FULL )
+    --, ((mod4Mask,  xK_s), cycleRecentWindows [xK_Super_L] xK_s xK_w)
     , ((mod4Mask,               xK_Down),  nextWS)
+      -- ((mod4Mask, xK_Tab), cycleRecentWS [xK_Alt_L] xK_Tab xK_grave)
       --, ((modm,               xK_Return), windows W.swapMaster)
       -- launch app with promote in put args  
       -- , ((mod1Mask, xK_x), AL.launchApp defaultXPConfig "xpdf" )

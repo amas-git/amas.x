@@ -1,6 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/etc/modprobe.d'
-let g:netrw_dirhist_2='/home/amas/.android'
-let g:netrw_dirhist_3='/data/sandbox/amas/choose.git/script/net4'
-let g:netrw_dirhist_4='/data/sandbox/amas/choose.git/script/net4/2001'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/src/cmcm'
+let g:netrw_dirhist_2='/src/cmcm/nr'
+let g:netrw_dirhist_3='/src/cmcm/nr/appy4-android'
