@@ -30,8 +30,10 @@ import XMonad.Actions.CycleWindows
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
+import XMonad.Config.Desktop                (desktopConfig)
 import XMonad.Hooks.Place
 import XMonad.Hooks.SetWMName
+import XMonad.Actions.ShowText
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -175,8 +177,8 @@ myTabConfig = defaultTheme {
 
 
 myLayout = id
-           . smartBorders
            . avoidStruts
+           . smartBorders
            . mkToggle (NOBORDERS ?? FULL ?? EOT)
            . mkToggle (single MIRROR)
            . Mag.magnifier
@@ -332,36 +334,37 @@ myGSConfig colorizer = (buildDefaultGSConfig myColorizer)
 ---------------------------------------------------------------------[ Term ]
 
 
-
+-- Flash text config
+myTextConfig :: ShowTextConfig
+myTextConfig = STC
+	{ 
+	  st_bg   = colorDarkGray
+	, st_fg   = colorOrange
+	}
 
 commands = defaultCommands
 
 
+---------------------------------------------------------------------[ Event Hook ]
+myHandleEventHook =
+	handleTimerEvent <+> ewmhDesktopsEventHook <+> docksEventHook
 
-fixPanel :: IO ()
-fixPanel = void $ forkIO $ do
-  threadDelay 5000000 -- delay for five seconds
-  spawn "xfce4-panel -r"
 ---------------------------------------------------------------------[ Main ]
 main = do
-  -- xmodebar
-  -- xmproc <- spawnPipe "/usr/bin/xmobar /home/amas/.xmobarrc"
-  -- xmonad
-  -- conf <- dzen defaultConfig
-  -- xxx <- spawnPipe dzenXmonad
-  xmproc <- spawnPipe "xmobar"
+  xmproc <- spawnPipe "xfce4-panel"
   xmonad $ defaultConfig {
-    borderWidth        = myBorderWidth  
+      borderWidth        = myBorderWidth  
     , normalBorderColor  = "black"
     , focusedBorderColor = "red"
     , terminal           = myTerm
     , workspaces         = myWorkspaces                       
-    , manageHook         = manageDocks <+>  manageHook defaultConfig
+    , manageHook         = manageHook defaultConfig <+> manageDocks
     , layoutHook         = myLayout
     , logHook            = ewmhDesktopsLogHook >> setWMName "LG3D"
-    , handleEventHook    = ewmhDesktopsEventHook
+    , handleEventHook    = myHandleEventHook
     , modMask            = myModMask -- Rebind Mod to the Windows key
     , keys               = myKeys                      
+    , startupHook        = startupHook desktopConfig <+> setWMName "LG3D" <+> docksStartupHook
     } 
     `additionalKeys`
     [
@@ -381,8 +384,13 @@ main = do
     , ((mod4Mask,  xK_o),  raiseMaybe  (spawn "ws") (className =? "jetbrains-webstorm"))
     , ((mod4Mask,  xK_g),  raiseNextMaybe (spawn "gvim") (className =? "Gvim"))
     , ((mod4Mask,  xK_0),  windowMenu)
+    , ((mod4Mask,  xK_z),  sendMessage ToggleStruts)
       --  
       -- , ((mod1Mask,  xK_0), spawnSelected defaultGSConfig ["urxvt"])
+      -- , ((mod4Mask, xK_Left),  flashText def 1 "PREV WORKSPACE" >> prevWS)               --Move to previous Workspace
+	  -- , ((mod4Mask, xK_Right), flashText def 1 "NEXT WORKSPACE" >> nextWS)                  --Move to next Workspace
+    , ((mod4Mask, xK_Left),  prevWS)               --Move to previous Workspace
+	, ((mod4Mask, xK_Right), nextWS)                  --Move to next Workspace
     , ((mod1Mask,  xK_0), goToSelected $ myGSConfig myColorizer)
     , ((mod1Mask .|. shiftMask, xK_g     ), windowPromptGoto  defaultXPConfig)
     , ((mod1Mask .|. shiftMask, xK_b     ), windowPromptBring defaultXPConfig)
@@ -390,8 +398,9 @@ main = do
     , ((0, xK_F12), sendMessage Mag.Toggle)
       --, ((mod4Mask,  xK_x), shellPrompt defaultXPConfig)
     , ((0, xK_F11), sendMessage $ Toggle FULL )
+     --, ((mod4Mask, xK_Down), flashText myTextConfig 1 "->" >> nextWS)
     --, ((mod4Mask,  xK_s), cycleRecentWindows [xK_Super_L] xK_s xK_w)
-    , ((mod4Mask,               xK_Down),  nextWS)
+      -- , ((mod4Mask,               xK_Down),  nextWS)
       -- ((mod4Mask, xK_Tab), cycleRecentWS [xK_Alt_L] xK_Tab xK_grave)
       --, ((modm,               xK_Return), windows W.swapMaster)
       -- launch app with promote in put args  
