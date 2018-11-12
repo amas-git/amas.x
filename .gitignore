@@ -12,3 +12,4 @@ _xmonad/xmonad-i386-linux
 *.o
 *.errors
 *.hi
+.uuid
